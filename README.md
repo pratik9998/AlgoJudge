@@ -2,4 +2,4 @@
 This is an online judge which is built using MERN stack. 
 
 #Logo
-![Logo](../../images/logo.png)
+![Logo](frontend/src/assets/images/logo.png)
