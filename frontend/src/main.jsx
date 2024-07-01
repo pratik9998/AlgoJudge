@@ -1,13 +1,13 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
-import App from './App.jsx'
 import './index.css'
+import App from './App.jsx'
 import Login from './components/Login.jsx'
 import Register from './components/Register.jsx'
 import Home from './components/Home.jsx'
 import Contest from './components/Contest.jsx'
 import Problems from './components/Problems.jsx'
-import { BrowserRouter, createBrowserRouter, RouterProvider } from 'react-router-dom'
+import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 
 const router = createBrowserRouter([
   {
@@ -34,8 +34,6 @@ const router = createBrowserRouter([
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode> 
-    <BrowserRouter>
-      <App/>
-    </BrowserRouter>
+    <RouterProvider router={router}/>
   </React.StrictMode>,
 )

@@ -1,13 +1,13 @@
 import React from 'react'
 import Navbar from './Navbar'
 
-function Contest() {
+const Contest = () => {
   return (
-    <div>
+    <div class="w-screen min-h-screen bg-[#ced8ff] m-0 p-0 box-border font-sans" >
       <Navbar/>
-      contest
     </div>
   )
 }
 
 export default Contest
+

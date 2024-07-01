@@ -1,15 +1,16 @@
 import React from 'react'
+import logo from '../assets/images/logo.png'
+import { Link } from 'react-router-dom'
 
-const register = () => {
+const Register = () => {
   return (
-    <div class="bg-[#ced8ff] bg-center flex justify-center items-center" >
+    <div class="bg-[#ced8ff] bg-cover bg-center h-screen flex justify-center items-center" >
   
        <div class="bg-white overflow-hidden rounded-[5px] flex text-center">
 
          <div class="flex flex-col justify-center items-center p-[40px]">
 
-            <h1 class="text-4xl text-whitefont-bold text-center mb-6">Register</h1>
-            <img src={logo} alt='' class="w-[160px] cursor-pointer"/>
+            <img src={logo} alt='' class="w-[170px] cursor-pointer"/>
 
             <form action=''>
 
@@ -27,6 +28,7 @@ const register = () => {
 
             <div class="relative my-4 border-black">
                <input type="username" class="block w-72 py-2.4 text-sm text-black border border-gray-800 rounded-md px-4 py-2" placeholder="username"/>
+               <label class="block text-sm  text-gray-500 text-left">*Here username is your AlgoJudge Handle.</label>
             </div>
 
             <div class="relative my-4">
@@ -46,4 +48,4 @@ const register = () => {
   )
 }
 
-export default register
+export default Register
