@@ -11,6 +11,7 @@ const Register = () => {
          <div class="flex flex-col justify-center items-center p-[40px]">
 
             <img src={logo} alt='' class="w-[170px] cursor-pointer"/>
+            <span class="h-3"></span>
 
             <form action=''>
 
