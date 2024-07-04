@@ -156,15 +156,22 @@ app.get('/problems', async (req, res) => {
 
 app.get('/problem-detail', async (req, res) => {
   // console.log("in problem detail request : " + req.query.id)
+  const { id } = req.query;
 
-    const id = req.query.id
-    console.log("problem_id is " + id)
-    Problem.findById(id)
-    .then(problem => {
-      console.log(problem)
-      res.json(problem)
-     })
-    .catch(err => res.status(500).json({ error: 'Problem not found' }));
+  try {
+    const problem = await Problem.findOne({ problem_id : id });
+    if (!problem) {
+      return res.status(404).json({ error: 'Problem not found' });
+    }
+    // console.log("at server side "+problem);
+    res.json({
+      message: "Problem found",
+      problem
+    });
+  } catch (err) {
+    console.error('Error fetching problem:', err);
+    res.status(500).json({ error: 'Internal server error' });
+  }
 });
 
 app.listen(8000, () => {
