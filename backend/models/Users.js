@@ -22,6 +22,14 @@ const userSchema = new mongoose.Schema({
     password: {
         type: String,
         required: true
+    },
+    user_type: {
+        type: String,
+        default: 'normal'
+    },
+    profilePhoto: {
+        type: String,
+        default: "https://cdn-icons-png.flaticon.com/128/3033/3033143.png"
     }
 });
 

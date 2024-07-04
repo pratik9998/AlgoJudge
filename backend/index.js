@@ -4,17 +4,23 @@
 const express = require('express');
 const app = express();
 const { DBConnection } = require('./database/db.js');
+
 const User = require('./models/Users.js');
+const Problem = require('./models/Problems')
+
 const jwt = require('jsonwebtoken');
 const cookieParser = require('cookie-parser');
+const bodyParser = require('body-parser')
 const bcrypt = require('bcryptjs');
 const dotenv = require('dotenv');
+const cors = require('cors')
 dotenv.config();
 
 //middlewares
+app.use(cors())
 app.use(express.json()); //at last (2:21:12) time
 app.use(express.urlencoded({ extended: true }));
-// app.use(bodyParser.json());
+app.use(bodyParser.json());
 app.use(cookieParser());
 
 DBConnection();
@@ -24,21 +30,30 @@ app.get("/", (req, res) => {
 });
 
 //to take details from user to register
-app.post("/register", async (req, res) => {
-  console.log(req);
+app.get('/register', (req, res) => {
+  res.send('welcome to register');
+});
+
+app.post('/register', async (req, res) => {
+  // console.log(req.body);
   try {
     //get all data from frontend request
     const { firstname, lastname, email, username, password } = req.body;
 
     //check all data should exist(no any blank datafield)
     if (!(firstname && lastname && email && username && password)) {
-      return res.status(400).send("Please fill all the required fields!");
+      return res.status(400).json({ message: 'All fields are required' });
     }
 
     //check if user already exists
-    const existinguser = await User.findOne({ email });
-    if (existinguser) {
-      return res.status(400).send("User already exists!");
+    const existingemail = await User.findOne({ email });
+    if (existingemail) {
+      return res.status(400).json({ message: 'User already exists' });
+    }
+
+    const existingusername = await User.findOne({ username });
+    if (existingusername) {
+      return res.status(400).json({ message: 'username is taken' });
     }
 
     //encrypt the password
@@ -57,9 +72,10 @@ app.post("/register", async (req, res) => {
 
     //generate a JWT token for user and send it
     const token = jwt.sign({ id: user._id, email }, process.env.SECRET_KEY, {
-      expiresIn: "1h"
+      expiresIn: "24h"
     });
-
+    
+    console.log(user)
     user.token = token;
     user.password = undefined;
     res.status(201).json({
@@ -68,12 +84,19 @@ app.post("/register", async (req, res) => {
     });
 
   } catch (error) {
-    console.error(error);
+    console.error("register error " + error);
   }
 });
 
 //for login
-app.post("/login", async (req, res) => {
+
+app.get('/login', (req, res) => {
+  res.send('welcome to login');
+});
+
+
+app.post('/login', async (req, res) => {
+  // console.log(req.body);
   try {
     //get all data from frontend request
     const { username, password } = req.body;
@@ -92,25 +115,21 @@ app.post("/login", async (req, res) => {
     //match the password
     //const hashPassword = bcrypt.hashSync(password, 10);
     const isPasswordMatch = await bcrypt.compare(password, user.password);
-    var isUsernameMatch = false;
-    if (username == user.username) isUsernameMatch = true;
-
+    
     if (!isPasswordMatch) {
+      // console.log(isPasswordMatch);
       return res.status(400).send("Password is Incorrect");
-    }
-
-    if (!isUsernameMatch) {
-      return res.status(400).send("Username is Incorrect");
     }
 
     //create token
     const token = jwt.sign({ id: user._id, username }, process.env.SECRET_KEY, {
-      expiresIn: "1h"
+      expiresIn: "24h"
     });
-
+    
     //store cookies
     res.cookie('token', token, { httpOnly: true, maxAge: 3600000 }); // 1 hour
-
+    //console.log(isPasswordMatch);
+    
     //send the token
     user.token = token;
     user.password = undefined;
@@ -119,9 +138,33 @@ app.post("/login", async (req, res) => {
       user
     });
 
+    // console.log(res.json());
+
   } catch (error) {
     console.error(error);
   }
+});
+
+app.get('/problems', async (req, res) => {
+  try {
+    const problems = await Problem.find();
+    res.json(problems);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
+
+app.get('/problem-detail', async (req, res) => {
+  // console.log("in problem detail request : " + req.query.id)
+
+    const id = req.query.id
+    console.log("problem_id is " + id)
+    Problem.findById(id)
+    .then(problem => {
+      console.log(problem)
+      res.json(problem)
+     })
+    .catch(err => res.status(500).json({ error: 'Problem not found' }));
 });
 
 app.listen(8000, () => {
