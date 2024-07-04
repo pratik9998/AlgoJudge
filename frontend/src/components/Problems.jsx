@@ -50,10 +50,12 @@ const Problems = () => {
               <tr key={problem.problem_id} className="border border-gray-300">
                 <td className="py-2 px-4 border border-gray-300">{index + 1}</td>
                 <td className="py-2 px-4 border border-gray-300 text-blue-500">
+
                   <Link 
                   to={`/problem-detail?id=${problem.problem_id}`}
                   onClick={()=>setId(problem.problem_id)}
                   >{problem.title}</Link>
+                  
                 </td>
                 <td className="py-2 px-4 border border-gray-300 text-center">{problem.tags.join(', ')}</td>
                 <td className={`py-2 px-4 border border-gray-300 text-center ${getDifficultyclassName(problem.difficultyLevel)}`}>

@@ -6,13 +6,13 @@ import Problems from './components/Problems.jsx'
 import ProblemDetail from './components/ProblemDetail.jsx'
 import { createBrowserRouter } from 'react-router-dom'
 import Profile  from './components/Profile.jsx'
-import AdminPanel from './components/AdminPanel.jsx'
+import Admin from './components/Admin.jsx'
 
 export const router = createBrowserRouter([
   { path: "/", element: <App /> },
   { path: "/problems", element: <Problems /> },
   { path: "/contest", element: <Contest /> },
-  { path: "/adminpanel", element: <AdminPanel /> },
+  { path: "/admin", element: <Admin /> },
   { path: "/login", element: <Login /> },
   { path: "/register", element: <Register /> },
   { path: "/problem-detail", element: <ProblemDetail /> }

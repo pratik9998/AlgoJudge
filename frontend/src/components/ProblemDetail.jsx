@@ -3,25 +3,31 @@ import axios from 'axios';
 import Editor from './Editor';
 import {useId} from './IdContext'
 
-function ProblemDetail() {
+const ProblemDetail = () => {
     
     const [problem, setProblem] = useState(null);
     const { id } = useId();
 
-    useEffect(() => {
-        // Fetch problem details from the server using the provided id
-        const response = axios.get(`http://localhost:8000/problem-detail?id=${id}`)
-        console.log(response)
-        setProblem(response.data);
-    }, []);
+    // useEffect(() => {
+        
+    // }, []);
 
-    if (!problem) {
-        return <div>Loading...</div>;
-    }
+    const fetchProblemDetail = async () => {
+        try {
+            const response = await axios.get(`http://localhost:8000/problem-detail?id=${id}`);
+            console.log(response.data.problem); // Log the fetched data to console
+            setProblem(response.data.problem); // Update state with fetched problem data
+        } catch (error) {
+            console.error('Error fetching problem detail:', error);
+        }
+    };
+
+    fetchProblemDetail();
 
     return (
         <div className="flex flex-col lg:flex-row h-full">
-            <div className="lg:w-1/2 p-4 border-r border-gray-200 overflow-y-auto">
+            {problem ? 
+              <div className="lg:w-1/2 p-4 border-r border-gray-200 overflow-y-auto"> 
                 <h1 className="text-2xl font-bold mb-4">{problem.title}</h1>
                 <section className="mb-4">
                     <h2 className="text-xl font-semibold">Problem Description</h2>
@@ -57,7 +63,8 @@ function ProblemDetail() {
                         </div>
                     ))}
                 </section>
-            </div>
+            </div> : ""}
+            
             <Editor />
         </div>
     );

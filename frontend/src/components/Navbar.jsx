@@ -15,7 +15,7 @@ const Navbar = () => {
             <ul className="flex-1 list-none text-center">
                 <Link to='/problems'><li className="inline-block m-[10px_20px] text-[18px] cursor-pointer">Problems</li></Link>
                 <Link to='/contest'><li className="inline-block m-[10px_20px] text-[18px] cursor-pointer">Contest</li></Link>
-                { user && user.user_type=="admin" ? <Link to='/adminpanel'><li className="inline-block m-[10px_20px] text-[18px] cursor-pointer">AdminPanel</li></Link> : ""}
+                { user && user.user_type=="admin" ? <Link to='/admin'><li className="inline-block m-[10px_20px] text-[18px] cursor-pointer">Admin</li></Link> : ""}
             </ul>
             {user ? (
                 <Link to="/profile">
