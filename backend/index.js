@@ -3,6 +3,7 @@
 
 const express = require('express');
 const app = express();
+const mongoose = require('mongoose');
 const { DBConnection } = require('./database/db.js');
 
 const User = require('./models/Users.js');
@@ -194,6 +195,24 @@ app.post('/admin/add-new-problem', async (req, res) => {
   }
 });
 
+app.put('/admin/update-problem', async (req, res) => {
+  try {
+      const problemId = req.query.id;
+      const deleteproblems = await Problem.findOneAndDelete({ problem_id: problemId });
+      const updateData  = req.body;
+      const newProblem = await Problem.create(updateData);
+      
+      // console.log("Problem-id::::::: " + problemId)
+      // console.log(updateData)
+
+      // const updatedProblem = await Problem.findByIdAndUpdate(problemId, updateData, { new: true });
+
+      res.status(200).json({ message: 'Problem updated successfully', problem: newProblem });
+  } catch (error) {
+      res.status(500).json({ message: error.message });
+  }
+});
+
 app.get('/problem-detail', async (req, res) => {
   // console.log("in problem detail request : " + req.query.id)
   const { id } = req.query;
@@ -203,7 +222,9 @@ app.get('/problem-detail', async (req, res) => {
     if (!problem) {
       return res.status(404).json({ error: 'Problem not found' });
     }
-    // console.log("at server side "+problem);
+
+    // console.log("at server side "+ problem);
+
     res.json({
       message: "Problem found",
       problem

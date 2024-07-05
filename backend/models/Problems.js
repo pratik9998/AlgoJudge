@@ -1,6 +1,5 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
-const AutoIncrement = require('mongoose-sequence')(mongoose);
 
 //Here is the Sample Testcase schema
 const sampleTestcaseSchema = new Schema({
@@ -30,7 +29,5 @@ const problemSchema = new Schema({
     sampleTestcases: [sampleTestcaseSchema],
     testcases: [testcaseSchema] // For judging
 });
-
-problemSchema.plugin(AutoIncrement, { inc_field: 'problem_id' });
 
 module.exports = mongoose.model('Problem', problemSchema);
