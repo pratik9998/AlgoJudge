@@ -7,6 +7,7 @@ import ProblemDetail from './components/ProblemDetail.jsx'
 import { createBrowserRouter } from 'react-router-dom'
 import Profile  from './components/Profile.jsx'
 import Admin from './components/Admin.jsx'
+import AddNewProblem from './components/AddNewProblem.jsx'
 
 export const router = createBrowserRouter([
   { path: "/", element: <App /> },
@@ -15,5 +16,6 @@ export const router = createBrowserRouter([
   { path: "/admin", element: <Admin /> },
   { path: "/login", element: <Login /> },
   { path: "/register", element: <Register /> },
-  { path: "/problem-detail", element: <ProblemDetail /> }
+  { path: "/problem-detail", element: <ProblemDetail /> },
+  { path: "/admin/add-new-problem", element: <AddNewProblem /> }
 ]) 

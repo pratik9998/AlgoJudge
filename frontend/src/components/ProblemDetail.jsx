@@ -15,10 +15,10 @@ const ProblemDetail = () => {
     const fetchProblemDetail = async () => {
         try {
             const response = await axios.get(`http://localhost:8000/problem-detail?id=${id}`);
-            console.log(response.data.problem); // Log the fetched data to console
+            //console.log(response.data.problem); // Log the fetched data to console
             setProblem(response.data.problem); // Update state with fetched problem data
         } catch (error) {
-            console.error('Error fetching problem detail:', error);
+            console.error('Error fetching problem detail: ', error);
         }
     };
 
