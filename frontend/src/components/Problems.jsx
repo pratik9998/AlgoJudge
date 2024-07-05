@@ -33,7 +33,7 @@ const Problems = () => {
   };
 
   return (
-    <div className="w-screen min-h-screen bg-[#ced8ff] m-0 p-0 box-border font-sans">               <Navbar />
+    <div className="w-screen min-h-screen bg-[#ced8ff] m-0 p-0 box-border font-sans">              <Navbar />
       <div className="container mx-auto p-10">
         <h1 className="text-2xl font-bold mb-4">Problems</h1>
         <table className="min-w-full bg-white border border-gray-300 rounded-lg overflow-hidden">

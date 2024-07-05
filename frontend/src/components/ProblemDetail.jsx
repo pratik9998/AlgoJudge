@@ -8,21 +8,19 @@ const ProblemDetail = () => {
     const [problem, setProblem] = useState(null);
     const { id } = useId();
 
-    // useEffect(() => {
-        
-    // }, []);
-
-    const fetchProblemDetail = async () => {
-        try {
-            const response = await axios.get(`http://localhost:8000/problem-detail?id=${id}`);
-            //console.log(response.data.problem); // Log the fetched data to console
-            setProblem(response.data.problem); // Update state with fetched problem data
-        } catch (error) {
-            console.error('Error fetching problem detail: ', error);
-        }
-    };
-
-    fetchProblemDetail();
+    useEffect(() => {
+        const fetchProblemDetail = async () => {
+            try {
+                const response = await axios.get(`http://localhost:8000/problem-detail?id=${id}`);
+                //console.log(response.data.problem); // Log the fetched data to console
+                setProblem(response.data.problem); // Update state with fetched problem data
+            } catch (error) {
+                console.error('Error fetching problem detail: ', error);
+            }
+        };
+    
+        fetchProblemDetail();
+    }, []);
 
     return (
         <div className="flex flex-col lg:flex-row h-full">

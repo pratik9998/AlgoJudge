@@ -75,7 +75,10 @@ const Admin = () => {
                   </Link>
                 </td>
                 <td className="py-2 px-4 border border-gray-300 text-center">
-                  <button className="text-white bg-blue-500 rounded px-4 py-1">Update</button>
+                  <Link to={`/admin/update-problem?id=${problem.problem_id}`}
+                        onClick={()=>setId(problem.problem_id)}>
+                    <button className="text-white bg-blue-500 rounded px-4 py-1">Update</button>
+                  </Link>
                 </td>
                 <td className="py-2 px-4 border border-gray-300 text-center">
                   <button className="text-white bg-red-500 rounded px-4 py-1"
