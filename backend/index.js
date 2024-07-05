@@ -13,7 +13,8 @@ const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser')
 const bcrypt = require('bcryptjs');
 const dotenv = require('dotenv');
-const cors = require('cors')
+const cors = require('cors');
+const Problems = require('./models/Problems');
 dotenv.config();
 
 //middlewares
@@ -150,6 +151,45 @@ app.get('/problems', async (req, res) => {
     const problems = await Problem.find();
     res.json(problems);
   } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
+
+app.get('/admin', async (req, res) => {
+    try {
+      const problems = await Problem.find();
+      res.json(problems);
+    } catch (err) {
+      res.status(500).json({ message: err.message });
+    }
+});
+
+app.delete('/admin', async (req, res) => {
+  const { id } = req.query;
+  // console.log(id)
+  try {
+    const problems = await Problem.findOneAndDelete({ problem_id: id });
+    res.status(200).json({ message: `Problem with ID ${id} deleted successfully.` });
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
+
+app.post('/admin/add-new-problem', async (req, res) => {
+  // console.log(req.body)
+  try {
+
+    const problemData = req.body;
+    //let existingProblem = await Problem.findOne({ problem_id: problemData.problem_id });
+    // console.log(problemData.problem_id)
+    const newProblem = await Problem.create(problemData);
+
+    // console.log(newProblem)
+    
+    res.status(200).json({ message: `Problem with ID ${newProblem.problem_id} added successfully.` });
+
+  } catch (err) {
+    console.error('Error adding problem: ', err);
     res.status(500).json({ message: err.message });
   }
 });

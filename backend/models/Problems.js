@@ -17,7 +17,7 @@ const testcaseSchema = new Schema({
 
 //the Problem schema
 const problemSchema = new Schema({
-    problem_id: { type: Number, unique: true },
+    problem_id: { type: Number, unique: true, required: true },
     title: { type: String, required: true },
     description: { type: String, required: true },
     constraints: { type: String, required: true },
