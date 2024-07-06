@@ -3,7 +3,8 @@ import React from 'react'
 const Profile = () => {
   return (
     <div>
-      profile page
+      profile page.
+      Under Development.
     </div>
   )
 }

@@ -17,6 +17,7 @@ export const router = createBrowserRouter([
   { path: "/admin", element: <Admin /> },
   { path: "/login", element: <Login /> },
   { path: "/register", element: <Register /> },
+  { path: "/profile", element: <Profile /> },
   { path: "/problem-detail", element: <ProblemDetail /> },
   { path: "/admin/add-new-problem", element: <AddNewProblem /> },
   { path: "/admin/update-problem", element: <UpdateProblem /> }
