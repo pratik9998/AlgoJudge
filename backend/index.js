@@ -9,6 +9,10 @@ const { DBConnection } = require('./database/db.js');
 const User = require('./models/Users.js');
 const Problem = require('./models/Problems')
 
+const { exec } = require('child_process');
+const fs = require('fs');
+const path = require('path');
+
 const jwt = require('jsonwebtoken');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser')
@@ -233,6 +237,41 @@ app.get('/problem-detail', async (req, res) => {
     console.error('Error fetching problem:', err);
     res.status(500).json({ error: 'Internal server error' });
   }
+});
+
+
+// compiler part
+app.post('/run', async (req, res) => {
+  const { language, code, input, timeLimit, memoryLimit } = req.body;
+
+  console.log(timeLimit)
+  console.log(memoryLimit)
+
+  if (language !== 'c_cpp') {
+    return res.json({ error: 'Currently only C++ is supported.' });
+  }
+
+  const codeFilePath = path.join(__dirname, 'temp.cpp');
+  const inputFilePath = path.join(__dirname, 'inputForRun.txt');
+  const outputFilePath = path.join(__dirname, 'outputForRun.txt');
+
+  fs.writeFileSync(codeFilePath, code);
+  fs.writeFileSync(inputFilePath, input);
+
+  exec(`g++ ${codeFilePath} -o temp.exe`, (compileError, compileStdout, compileStderr) => {
+    if (compileError) {
+      return res.json({ error: compileStderr });
+    }
+
+    exec(`temp.exe < ${inputFilePath} > ${outputFilePath}`, (runError, runStdout, runStderr) => {
+      if (runError) {
+        return res.json({ error: runStderr });
+      }
+
+      const output = fs.readFileSync(outputFilePath, 'utf-8');
+      res.json({ output });
+    });
+  });
 });
 
 app.listen(8000, () => {
